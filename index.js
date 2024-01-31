@@ -1,17 +1,25 @@
-// import the pets array from data.js
-const pets = require('./data');
-
 // init express app
 const express = require('express');
 const app = express();
-
 const PORT = 8080;
+
+// import the pets array from data.js
+const pets = require('./data');
+
 
 // GET - / - returns homepage
 app.get('/', (req, res) => {
-    // serve up the public folder as static index.html file
 
+    //test that the server is operational 
+    //server initially did not render because : was missing from url 
+        //  res.send('Hello World'); 
+
+    // serve up the public folder as static index.html file
+    { res.sendFile(__dirname + '/public/index.html'); }
+    res.status(200);
 });
+
+
 
 // hello world route
 app.get('/api', (req, res) => {
@@ -49,7 +57,7 @@ app.get('/api/v1/pets/:name', (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log('Server is listening on port ' + PORT);
+    console.log(`Server is listening on port  + ${PORT}`);
 });
 
 module.exports = app;
