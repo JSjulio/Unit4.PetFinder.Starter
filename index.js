@@ -21,7 +21,7 @@ app.get('/', (req, res) => {
 });
 
 
-// hello world route
+// hello world test route
 app.get('/api', (req, res) => {
     res.send('Hello World!');
 });
@@ -36,15 +36,16 @@ app.get('/api/v1/pets', (req, res) => {
 });
 
 // TODO get pet by owner with query 
+// /owner?owner=<nameOfOwner> has to be added into the GET url 
 app.get('/api/v1/pets/owner', (req, res) => {
     // assign the owner from the request
     const owner = req.query.owner; 
 
     // Use the find method to return a boolean based off of the proceeding argument
-    const pet = pets.find(pet =>  pet.owner === owner);    
+    const pet = pets.find(pet =>  pet.owner.toLowerCase() === owner.toLowerCase());    
     // if boolean is true then send the pet as a response 
     // if not true send a 404 stating that the pet was not found. 
-
+ 
     if(pet) { 
         res.status(200).send(pet.name + " (" + pet.breed + ") Was found based off it's owner name!" ); //set the status and return the pet name / breed
     } else { 
@@ -53,13 +54,14 @@ app.get('/api/v1/pets/owner', (req, res) => {
 });
 
 // TODO get pet by name using Route parameters 
-app.get('/api/v1/pets/findbyname/:name', (req, res) => {
+// /fido would be a valid Route parameter
+app.get('/api/v1/pets/:name', (req, res) => {
     // get the name from the request
     // use req.params.petName to assign a const 'name' to the user's inputted name value. 
     const petName = req.params.name; 
 
     // find the pet in the pets array using the find method + similar logic to what was used to query. 
-    const petFound = pets.find(pet => pet.name === petName);
+    const petFound = pets.find(pet => pet.name.toLowerCase() === petName.toLowerCase());
 
     // send the pet as a response
     if (petFound) { 
@@ -72,7 +74,6 @@ app.get('/api/v1/pets/findbyname/:name', (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server is listening on port  + ${PORT}`);
 });
-
 
 
 module.exports = app;
